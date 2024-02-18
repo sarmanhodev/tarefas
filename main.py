@@ -5,6 +5,7 @@ from sqlalchemy.orm import joinedload
 from tables import *
 from datetime import datetime, date, timedelta
 
+
 class SQLAlchemy(_BaseSQLAlchemy):
     def apply_pool_defaults(self, app, options):
         super(SQLAlchemy, self).apply_pool_defaults(self, app, options)
@@ -15,7 +16,10 @@ app = Flask(__name__, template_folder='./templates')
 
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"pool_pre_ping": True}  
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:ROOT@localhost/crud_basico"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:ROOT@localhost/crud_basico"
+
+#STRING 
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://post_database_3uah_user:4LD68Qcy9hueV8UY6AS75W4tNbjHeOhQ@dpg-cn97jli1hbls73deso9g-a.oregon-postgres.render.com/post_database_3uah"
 
 app.config["SECRET_KEY"] = 'secret'
 db.init_app(app)
@@ -41,7 +45,8 @@ def cadastrar_novo_post():
     dados_dict = request.get_json()
 
     if request.method == 'POST':
-        novo_post = Post(data_post = dados_dict[0]['data_post'], data_limite = dados_dict[0]['data_limite'],data_conclusao = None, observacoes = dados_dict[0]['observacoes'],
+        novo_post = Post(data_post = dados_dict[0]['data_post'], data_limite = dados_dict[0]['data_limite'], data_conclusao = None, 
+                         observacoes = dados_dict[0]['observacoes'],
                          post_status_id = 1, assunto = dados_dict[0]['assunto'])
         db.session.add(novo_post)
         db.session.commit()
