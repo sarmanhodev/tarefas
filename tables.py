@@ -18,7 +18,7 @@ class Post(db.Model,UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     data_post = db.Column(db.String(50), unique = False, nullable=False)
     data_limite = db.Column(db.String(50), unique = False, nullable=False)
-    data_conclusao = db.Column(db.String(50), unique = False, nullable=False)
+    data_conclusao = db.Column(db.String(50), unique = False, nullable=True)
     observacoes = db.Column(db.Text, unique = False, nullable = False)
     assunto = db.Column(db.String(256), unique = True, nullable= True)
     post_status_id = db.Column(db.Integer,db.ForeignKey("post_status.id"), unique=False)
