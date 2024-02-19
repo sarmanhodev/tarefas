@@ -4,7 +4,7 @@ import requests
 
 
 def atualizar_dado():
-    response = requests.get('https://lista-tarefas-uvq7.onrender.com//atualizar_registro_expirado')
+    response = requests.get('https://lista-tarefas-uvq7.onrender.com/atualizar_registro_expirado')
     print(response.text)
 
 # Agende a execução a cada 24 horas
