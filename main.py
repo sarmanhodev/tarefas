@@ -16,10 +16,8 @@ app = Flask(__name__, template_folder='./templates')
 
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"pool_pre_ping": True}  
 
-#app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:ROOT@localhost/crud_basico"
-
 #STRING 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://post_database_3uah_user:4LD68Qcy9hueV8UY6AS75W4tNbjHeOhQ@dpg-cn97jli1hbls73deso9g-a.oregon-postgres.render.com/post_database_3uah"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://post_database_a0mv_user:Bm2bUZqcMfiQm5eV0Nv1Enxjg5KZbj0D@dpg-cn9p9nicn0vc738th780-a.oregon-postgres.render.com/post_database_a0mv"
 
 app.config["SECRET_KEY"] = 'secret'
 db.init_app(app)
@@ -32,11 +30,16 @@ def home():
     #print(data_formatada)
 
     posts_today = db.session.query(Post).filter(Post.data_limite==data_formatada).filter(Post.post_status_id != 3).all()
-    posts = db.session.query(Post).order_by(desc(Post.id)).filter(Post.data_limite != data_formatada).filter(Post.post_status_id != 3).all()
+
+    posts = db.session.query(Post).order_by(desc(Post.id)).filter(Post.data_limite != data_formatada).filter(Post.data_limite > data_formatada).filter(Post.post_status_id != 3).all()
+
     posts_concluidos = db.session.query(Post).order_by(desc(Post.id)).filter(Post.post_status_id == 3).all()
+
+    posts_expirados = db.session.query(Post).order_by(desc(Post.id)).filter(Post.data_limite < data_formatada).all()
+
     status = db.session.query(Post_Status).order_by(asc(Post_Status.id)).all()
     
-    return render_template('home.html', posts = posts,status=status,posts_today=posts_today,posts_concluidos=posts_concluidos, data_atual = data_formatada)
+    return render_template('home.html', posts = posts,status=status,posts_today=posts_today,posts_concluidos=posts_concluidos, data_atual = data_formatada, posts_expirados=posts_expirados)
 
 
 #INSERT
@@ -103,6 +106,8 @@ def deletar_registro(post_id):
     flash('Registro excluído com sucesso')
 
     return redirect(url_for('home'))
+
+
 
 
 if __name__=="__main__":
