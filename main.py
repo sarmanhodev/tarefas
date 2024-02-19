@@ -17,10 +17,10 @@ app = Flask(__name__, template_folder='./templates')
 app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"pool_pre_ping": True}  
 
 #TROCAR
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:root@localhost/post_database" 
+#app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:root@localhost/post_database" 
 
 #STRING 
-#app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://post_database_a0mv_user:Bm2bUZqcMfiQm5eV0Nv1Enxjg5KZbj0D@dpg-cn9p9nicn0vc738th780-a.oregon-postgres.render.com/post_database_a0mv"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://post_database_a0mv_user:Bm2bUZqcMfiQm5eV0Nv1Enxjg5KZbj0D@dpg-cn9p9nicn0vc738th780-a.oregon-postgres.render.com/post_database_a0mv"
 
 app.config["SECRET_KEY"] = 'secret'
 db.init_app(app)
