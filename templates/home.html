@@ -327,7 +327,7 @@
         {%else%}
         <div class="row m-1">
             {%for post in posts%}
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="accordion">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
@@ -338,7 +338,7 @@
                                     <div class="col-md-8">
                                         <p>#{{post.id}} - {{post.assunto}}</p>
                                     </div>
-                                    <div class="col-md-4 text-end">
+                                    <div class="col-md-4 text-start">
                                         <p><b>Data Limite: </b> {{post.data_limite}}</p>
                                     </div>
                                 </div>
@@ -348,17 +348,17 @@
                             data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="row m-1 float-end">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <a class="text-primary" title="Editar" data-bs-toggle="modal" type="button"
                                             data-bs-target="#editarRegistro{{post.id}}"><i
                                                 class="bi bi-pencil-square"></i></a>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <a class="text-danger fw-bold" title="Excluir" data-bs-toggle="modal"
                                             type="button" data-bs-target="#excluiRegistro{{post.id}}"><i
                                                 class="bi bi-trash3"></i></a>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <a class="text-success" title="Concluir Tarefa" type="button"
                                             onclick="concluir_tarefa({{post.id}})">
                                             <i class="bi bi-check2-square"></i>
@@ -514,12 +514,12 @@
                                     <div class="col-md-4">
                                         <p>#{{post.id}} - {{post.assunto}}</p>
                                     </div>
-                                    <div class="col-md-4 text-end">
+                                    <div class="col-md-4 text-start">
                                         <p><b>Data Limite: </b> {{post.data_limite}}</p> 
                                        
                                         <input hidden class="data_limite{{post.id}}" type="text" value="{{post.data_limite}}">                                      
                                     </div>
-                                    <div class="col-md-4 text-end diferenca_dias{{post.id}}">
+                                    <div class="col-md-4 text-start diferenca_dias{{post.id}}">
                                         <!--RECEBE A QUANTIDADE DE DIAS DE ATRASO-->
                                     </div>
                                 </div>
@@ -529,17 +529,17 @@
                             data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="row m-1 float-end">
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <a class="text-primary" title="Editar" data-bs-toggle="modal" type="button"
                                             data-bs-target="#editarRegistro{{post.id}}"><i
                                                 class="bi bi-pencil-square"></i></a>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <a class="text-danger fw-bold" title="Excluir" data-bs-toggle="modal"
                                             type="button" data-bs-target="#excluiRegistro{{post.id}}"><i
                                                 class="bi bi-trash3"></i></a>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
                                         <a class="text-success" title="Concluir Tarefa" type="button"
                                             onclick="concluir_tarefa({{post.id}})">
                                             <i class="bi bi-check2-square"></i>
