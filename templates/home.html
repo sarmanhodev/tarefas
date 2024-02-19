@@ -27,7 +27,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom" data-bs-theme="dark">
         <div class="container-fluid">
-            
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -39,7 +39,8 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal"
-                            data-bs-target="#tarefasConcluidas">Tarefas Concluídas <span class="badge text-bg-secondary"> {{posts_concluidos|count}} </span></a>
+                            data-bs-target="#tarefasConcluidas">Tarefas Concluídas <span
+                                class="badge text-bg-secondary"> {{posts_concluidos|count}} </span></a>
                     </li>
                 </ul>
             </div>
@@ -48,6 +49,10 @@
                 PostIt <i class="bi bi-sticky"></i> </button>
         </div>
     </nav>
+
+    {%for x in posts_expirados%}
+    <input onclick="descobrir_data({{x.id}})" type="text" value="{{x.data_limite}}" class="input{{x.id}}">
+    {%endfor%}
 
     <!-- Modal Novo Cadatro -->
     <div class="modal fade" id="adicionaCadastro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -136,7 +141,7 @@
         <div class="row m-1">
             <div class="col-md-8 text-start">
                 <h5 class="text-white" id="tarefas_do_dia">
-                   Você possui {{posts_today|count}} tarefas para o dia de hoje: {{data_atual}}
+                    Você possui {{posts_today|count}} tarefas para o dia de hoje: {{data_atual}}
                 </h5>
             </div>
         </div>
@@ -327,7 +332,7 @@
         {%else%}
         <div class="row m-1">
             {%for post in posts%}
-            <div class="col-md-3">
+            {%if post.data_limite > data_atual%} <div class="col-md-3">
                 <div class="accordion">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
@@ -372,113 +377,114 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-
-            <!-- Modal Edita Dados POst-->
-            <div class="modal fade" id="editarRegistro{{post.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Registro - Id número {{post.id}}
-                            </h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row m-1">
-                                <div class="col-md-4">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" readonly name="data_post" value="{{post.data_post}}"
-                                            class="form-control" id="data_post" placeholder="Data Cadastro">
-                                        <label for="data_post">Data Cadastro</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" readonly name="data_limite" value="{{post.data_limite}}"
-                                            class="form-control data_limite{{post.id}}" id="data_limite"
-                                            placeholder="Data Limite">
-                                        <label for="data_limite">Data Limite</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 prorroga{{post.id}}">
-                                    <button class="btn btn-success botao{{post.id}}" type="button"
-                                        onclick="prorrogar_prazo({{post.id}})">Prorrogar Prazo</button>
-                                </div>
-                            </div>
-
-                            <div class="row m-1">
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        <input type="text" name="assunto" value="{{post.assunto}}" class="form-control"
-                                            id="assunto" placeholder="Assunto">
-                                        <label for="assunto">Assunto</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <select class="form-select" id="select_status{{post.id}}"
-                                            aria-label="Floating label select example">
-                                            <option value="{{post.post_post_status.id}}" selected>
-                                                {{post.post_post_status.status}} </option>
-                                            {%for status in status%}
-                                            <option value="{{status.id}}"> {{status.status}} </option>
-                                            {%endfor%}
-                                        </select>
-                                        <label for="select_status">Status</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row m-1">
-                                <div class="form-floating">
-                                    <textarea class="form-control" placeholder="Observações"
-                                        id="observacoes"> {{post.observacoes}} </textarea>
-                                    <label for="observacoes">Observações</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sair</button>
-                            <button type="submit" onclick="atualizar_registro({{post.id}})" class="btn btn-primary"
-                                data-bs-dismiss="modal">Salvar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal Exclui Dados Aluno-->
-            <div class="modal fade" id="excluiRegistro{{post.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Excluir Registro - Id Número {{post.id}}
-                            </h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h3 class="fw-bold text-danger text-center">Atenção!</h3>
-                            <h5>Deseja realmente excluir o registro referente ao assunto: <p
-                                    class="fw-bold nome_aluno{{post.id}}">{{post.assunto}}</p>
-                            </h5>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sair</button>
-                            <a type="button" href="{{url_for('deletar_registro', post_id = post.id)}}"
-                                class="btn btn-danger">Excluir</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {%endfor%}
         </div>
         {%endif%}
+
+
+
+        <!-- Modal Edita Dados POst-->
+        <div class="modal fade" id="editarRegistro{{post.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Registro - Id número {{post.id}}
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row m-1">
+                            <div class="col-md-4">
+                                <div class="form-floating mb-3">
+                                    <input type="text" readonly name="data_post" value="{{post.data_post}}"
+                                        class="form-control" id="data_post" placeholder="Data Cadastro">
+                                    <label for="data_post">Data Cadastro</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-floating mb-3">
+                                    <input type="text" readonly name="data_limite" value="{{post.data_limite}}"
+                                        class="form-control data_limite{{post.id}}" id="data_limite"
+                                        placeholder="Data Limite">
+                                    <label for="data_limite">Data Limite</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 prorroga{{post.id}}">
+                                <button class="btn btn-success botao{{post.id}}" type="button"
+                                    onclick="prorrogar_prazo({{post.id}})">Prorrogar Prazo</button>
+                            </div>
+                        </div>
+
+                        <div class="row m-1">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" name="assunto" value="{{post.assunto}}" class="form-control"
+                                        id="assunto" placeholder="Assunto">
+                                    <label for="assunto">Assunto</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select" id="select_status{{post.id}}"
+                                        aria-label="Floating label select example">
+                                        <option value="{{post.post_post_status.id}}" selected>
+                                            {{post.post_post_status.status}} </option>
+                                        {%for status in status%}
+                                        <option value="{{status.id}}"> {{status.status}} </option>
+                                        {%endfor%}
+                                    </select>
+                                    <label for="select_status">Status</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row m-1">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Observações"
+                                    id="observacoes"> {{post.observacoes}} </textarea>
+                                <label for="observacoes">Observações</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sair</button>
+                        <button type="submit" onclick="atualizar_registro({{post.id}})" class="btn btn-primary"
+                            data-bs-dismiss="modal">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Exclui Dados Aluno-->
+        <div class="modal fade" id="excluiRegistro{{post.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Excluir Registro - Id Número {{post.id}}
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h3 class="fw-bold text-danger text-center">Atenção!</h3>
+                        <h5>Deseja realmente excluir o registro referente ao assunto: <p
+                                class="fw-bold nome_aluno{{post.id}}">{{post.assunto}}</p>
+                        </h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sair</button>
+                        <a type="button" href="{{url_for('deletar_registro', post_id = post.id)}}"
+                            class="btn btn-danger">Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+    {%endif%}
     </div>
 
     <br>
@@ -507,17 +513,19 @@
                 <div class="accordion ">
                     <div class="accordion-item ">
                         <h2 class="accordion-header ">
-                            <button onmouseover="calcular_dias({{post.id}})" class="accordion-button collapsed bg-warning text-white" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne{{post.id}}" aria-expanded="true"
+                            <button onmouseover="calcular_dias({{post.id}})"
+                                class="accordion-button collapsed bg-warning text-white" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#collapseOne{{post.id}}" aria-expanded="true"
                                 aria-controls="collapseOne">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <p>#{{post.id}} - {{post.assunto}}</p>
                                     </div>
                                     <div class="col-md-4 text-start">
-                                        <p><b>Data Limite: </b> {{post.data_limite}}</p> 
-                                       
-                                        <input hidden class="data_limite{{post.id}}" type="text" value="{{post.data_limite}}">                                      
+                                        <p><b>Data Limite: </b> {{post.data_limite}}</p>
+
+                                        <input hidden class="data_limite{{post.id}}" type="text"
+                                            value="{{post.data_limite}}">
                                     </div>
                                     <div class="col-md-4 text-start diferenca_dias{{post.id}}">
                                         <!--RECEBE A QUANTIDADE DE DIAS DE ATRASO-->
@@ -809,17 +817,26 @@
     }
 
 
-    function calcular_dias(post_id){
+    function calcular_dias(post_id) {
         var data_limite = $(`.dados_expirados`).find(`.dados_expirados${post_id}`).find(`.data_limite${post_id}`).val();
         var data_atual = moment();
-        
+
         moment.locale('pt-br');
 
-        var startDate = moment(data_limite,'DD/MM/YYYY');
+        var startDate = moment(data_limite, 'DD/MM/YYYY');
         var endDate = moment();
         var differenceInDays = endDate.diff(startDate, 'days');
 
         $(`.dados_expirados`).find(`.dados_expirados${post_id}`).find(`.diferenca_dias${post_id}`).html(`<p>A tarefa está ${differenceInDays} dias atrasada</p>`);
+    }
+
+    function descobrir_data(post_id) {
+        var data_limite = $(`.input${post_id}`).val();
+        var dataFormatada = moment(data_limite, "DD/MM/YYYY");
+        var data_atual = moment();
+
+        var total = data_atual.diff(dataFormatada, 'days');
+        alert(total)
     }
 
 </script>
