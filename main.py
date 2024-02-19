@@ -34,15 +34,35 @@ def home():
 
     posts_today = db.session.query(Post).filter(Post.data_limite==data_formatada).filter(Post.post_status_id != 3).all()
 
-    posts = db.session.query(Post).order_by(desc(Post.id)).filter(Post.data_limite != data_formatada).filter(Post.data_limite > data_formatada).filter(Post.post_status_id != 3).all()
+    posts = db.session.query(Post).order_by(desc(Post.id)).filter(Post.post_status_id == 1).all()
 
     posts_concluidos = db.session.query(Post).order_by(desc(Post.id)).filter(Post.post_status_id == 3).all()
 
-    posts_expirados = db.session.query(Post).order_by(desc(Post.id)).filter(Post.data_limite < data_formatada).all()
+    posts_expirados = db.session.query(Post).order_by(desc(Post.id)).filter(Post.post_status_id == 2).all()
 
     status = db.session.query(Post_Status).order_by(asc(Post_Status.id)).all()
     
-    return render_template('home.html', posts = posts,status=status,posts_today=posts_today,posts_concluidos=posts_concluidos, data_atual = data_formatada, posts_expirados=posts_expirados)
+    return render_template('home.html', posts = posts,status=status,posts_today=posts_today,posts_concluidos=posts_concluidos, 
+                           data_atual = data_formatada, posts_expirados=posts_expirados)
+
+
+
+#ATUALIZAR REGISTRO PARA EXPIRADOS
+@app.route('/atualizar_registro_expirado', methods =['GET', 'POST'])
+def atualizar_registro_expirado():
+    data_atual = date.today()
+    data_formatada = data_atual.strftime("%d/%m/%Y")
+    post = db.session.query(Post).filter(Post.post_status_id != 3).filter(Post.data_limite != data_formatada).all()
+
+    for post in post:
+        data_limite = datetime.strptime(post.data_limite,"%d/%m/%Y").date()
+        print(data_limite)
+
+        if data_limite < data_atual:
+            post.data_limite = 2
+            db.session.commit()
+
+            print('Dado atualizado com sucesso!')
 
 
 #INSERT
