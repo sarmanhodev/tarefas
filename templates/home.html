@@ -691,7 +691,12 @@
         $(`#editarRegistro${post_id}`).find(`.data_limite${post_id}`).val(minhaData);
     }
 
+    function recarregarPagina() {
+        window.location.reload();
+    }
 
+    // Agendar a recarga da página após 1 minuto
+    setTimeout(recarregarPagina, 60000);
 
     $(document).ready(function () {
         $('.tarefas_concluidas').DataTable({
