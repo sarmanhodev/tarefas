@@ -59,7 +59,7 @@ def atualizar_registro_expirado():
         print(data_limite)
 
         if data_limite < data_atual:
-            post.data_limite = 2
+            post.post_status_id = 2
             db.session.commit()
 
             print('Dado atualizado com sucesso!')
