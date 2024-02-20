@@ -4,7 +4,7 @@ import threading
 import requests
 
 def atualizar_dado():
-    url = 'https://lista-tarefas-uvq7.onrender.com//atualizar_registro_expirado'
+    url = 'https://lista-tarefas-uvq7.onrender.com/atualizar_registro_expirado'
     response = requests.get(url)
     print(response.text)
 
