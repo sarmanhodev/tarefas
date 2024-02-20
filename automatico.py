@@ -9,7 +9,7 @@ def atualizar_dado():
     print(response.text)
 
 # Agende a execução a cada 4 horas (ajuste conforme necessário)
-schedule.every(4).hour.do(atualizar_dado)
+schedule.every(2).minutes.do(atualizar_dado)
 
 # Função para iniciar o agendamento em uma thread separada
 def iniciar_agendamento():
