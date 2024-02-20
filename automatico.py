@@ -8,7 +8,7 @@ def atualizar_dado():
     print(response.text)
 
 # Agende a execução a cada 24 horas
-schedule.every(24).hours.do(atualizar_dado)
+schedule.every(2).hours.do(atualizar_dado)
 
 while True:
     schedule.run_pending()
