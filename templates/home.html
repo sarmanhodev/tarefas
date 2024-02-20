@@ -673,7 +673,7 @@
             <div class="toast-header">
                 <img src="https://cdn-icons-png.freepik.com/256/2556/2556949.png" class="rounded me-2" alt="ícone"
                     width="30">
-                <strong class="me-auto">Tarefas do dia {{data_atual}} </strong>
+                <strong class="me-auto fs-6">Tarefas do dia {{data_atual}} </strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fechar"></button>
             </div>
             <div class="toast-body">
@@ -682,7 +682,7 @@
                 {%else%}
                 <ol>
                     {%for post in posts_today%}
-                    <li> {{post.assunto}} </li>
+                    <li class="fs-6"> {{post.assunto}} </li>
                     {%endfor%}
                 </ol>
                 {%endif%}
@@ -693,19 +693,19 @@
     <!-- Toast Posts Pendentes -->
     <div class="toast-container position-fixed  end-0 p-3">
         <div id="toastExpirado" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
+            <div class="toast-header bg-warning">
                 <img src="https://cdn-icons-png.freepik.com/256/2556/2556949.png" class="rounded me-2" alt="ícone"
                     width="30">
-                <strong class="me-auto">Você possui {{posts_expirados|count}} tarefas pendentes </strong>
+                <strong class="me-auto fs-6">Você possui {{posts_expirados|count}} tarefas pendentes </strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fechar"></button>
             </div>
-            <div class="toast-body">
+            <div class="toast-body bg-warning">
                 {%if post_expirados == []%}
                 <h6>Você não possui nenhuma tarefa expirada</h6>
                 {%else%}
                 <ol>
                     {%for post in posts_expirados%}
-                    <li> {{post.assunto}} </li>
+                    <li class="fs-6"> {{post.assunto}} </li>
                     {%endfor%}
                 </ol>
                 {%endif%}
