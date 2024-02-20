@@ -24,7 +24,7 @@
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 </head>
 
-<body>
+<body id="liveToastBtn">
     <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark border-bottom" data-bs-theme="dark">
         <div class="container-fluid">
 
@@ -49,6 +49,22 @@
                 PostIt <i class="bi bi-sticky"></i> </button>
         </div>
     </nav>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="..." class="rounded me-2" alt="...">
+                <strong class="me-auto">Tarefas</strong>
+                <small>11 mins ago</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                {%for post in posts_today%}
+                <p>{{post.assunto}}</p>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
 
     <!-- Modal Novo Cadatro -->
     <div class="modal fade" id="adicionaCadastro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -373,113 +389,113 @@
                         </div>
                     </div>
                 </div>
-        </div>
+            </div>
 
 
 
-        <!-- Modal Edita Dados POst-->
-        <div class="modal fade" id="editarRegistro{{post.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Registro - Id número {{post.id}}
-                        </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row m-1">
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <input type="text" readonly name="data_post" value="{{post.data_post}}"
-                                        class="form-control" id="data_post" placeholder="Data Cadastro">
-                                    <label for="data_post">Data Cadastro</label>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="form-floating mb-3">
-                                    <input type="text" readonly name="data_limite" value="{{post.data_limite}}"
-                                        class="form-control data_limite{{post.id}}" id="data_limite"
-                                        placeholder="Data Limite">
-                                    <label for="data_limite">Data Limite</label>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 prorroga{{post.id}}">
-                                <button class="btn btn-success botao{{post.id}}" type="button"
-                                    onclick="prorrogar_prazo({{post.id}})">Prorrogar Prazo</button>
-                            </div>
+            <!-- Modal Edita Dados POst-->
+            <div class="modal fade" id="editarRegistro{{post.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Registro - Id número {{post.id}}
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+                        <div class="modal-body">
+                            <div class="row m-1">
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" readonly name="data_post" value="{{post.data_post}}"
+                                            class="form-control" id="data_post" placeholder="Data Cadastro">
+                                        <label for="data_post">Data Cadastro</label>
+                                    </div>
+                                </div>
 
-                        <div class="row m-1">
-                            <div class="col-md-6">
-                                <div class="form-floating mb-3">
-                                    <input type="text" name="assunto" value="{{post.assunto}}" class="form-control"
-                                        id="assunto" placeholder="Assunto">
-                                    <label for="assunto">Assunto</label>
+                                <div class="col-md-4">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" readonly name="data_limite" value="{{post.data_limite}}"
+                                            class="form-control data_limite{{post.id}}" id="data_limite"
+                                            placeholder="Data Limite">
+                                        <label for="data_limite">Data Limite</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 prorroga{{post.id}}">
+                                    <button class="btn btn-success botao{{post.id}}" type="button"
+                                        onclick="prorrogar_prazo({{post.id}})">Prorrogar Prazo</button>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="row m-1">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" name="assunto" value="{{post.assunto}}" class="form-control"
+                                            id="assunto" placeholder="Assunto">
+                                        <label for="assunto">Assunto</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="select_status{{post.id}}"
+                                            aria-label="Floating label select example">
+                                            <option value="{{post.post_post_status.id}}" selected>
+                                                {{post.post_post_status.status}} </option>
+                                            {%for status in status%}
+                                            <option value="{{status.id}}"> {{status.status}} </option>
+                                            {%endfor%}
+                                        </select>
+                                        <label for="select_status">Status</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row m-1">
                                 <div class="form-floating">
-                                    <select class="form-select" id="select_status{{post.id}}"
-                                        aria-label="Floating label select example">
-                                        <option value="{{post.post_post_status.id}}" selected>
-                                            {{post.post_post_status.status}} </option>
-                                        {%for status in status%}
-                                        <option value="{{status.id}}"> {{status.status}} </option>
-                                        {%endfor%}
-                                    </select>
-                                    <label for="select_status">Status</label>
+                                    <textarea class="form-control" placeholder="Observações"
+                                        id="observacoes"> {{post.observacoes}} </textarea>
+                                    <label for="observacoes">Observações</label>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row m-1">
-                            <div class="form-floating">
-                                <textarea class="form-control" placeholder="Observações"
-                                    id="observacoes"> {{post.observacoes}} </textarea>
-                                <label for="observacoes">Observações</label>
-                            </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sair</button>
+                            <button type="submit" onclick="atualizar_registro({{post.id}})" class="btn btn-primary"
+                                data-bs-dismiss="modal">Salvar</button>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sair</button>
-                        <button type="submit" onclick="atualizar_registro({{post.id}})" class="btn btn-primary"
-                            data-bs-dismiss="modal">Salvar</button>
-                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Modal Exclui Dados Aluno-->
-        <div class="modal fade" id="excluiRegistro{{post.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Excluir Registro - Id Número {{post.id}}
-                        </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h3 class="fw-bold text-danger text-center">Atenção!</h3>
-                        <h5>Deseja realmente excluir o registro referente ao assunto: <p
-                                class="fw-bold nome_aluno{{post.id}}">{{post.assunto}}</p>
-                        </h5>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sair</button>
-                        <a type="button" href="{{url_for('deletar_registro', post_id = post.id)}}"
-                            class="btn btn-danger">Excluir</a>
+            <!-- Modal Exclui Dados Aluno-->
+            <div class="modal fade" id="excluiRegistro{{post.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Excluir Registro - Id Número {{post.id}}
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h3 class="fw-bold text-danger text-center">Atenção!</h3>
+                            <h5>Deseja realmente excluir o registro referente ao assunto: <p
+                                    class="fw-bold nome_aluno{{post.id}}">{{post.assunto}}</p>
+                            </h5>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sair</button>
+                            <a type="button" href="{{url_for('deletar_registro', post_id = post.id)}}"
+                                class="btn btn-danger">Excluir</a>
+                        </div>
                     </div>
                 </div>
             </div>
+            {%endfor%}
         </div>
-        {%endfor%}
-    </div>
-    {%endif%}
+        {%endif%}
     </div>
 
     <br>
@@ -664,6 +680,43 @@
         </div>
         {%endif%}
     </div>
+    
+
+    <!-- Toast Posts do dia -->
+   <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="meuToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="https://cdn-icons-png.freepik.com/256/2556/2556949.png" class="rounded me-2" alt="ícone" width="30">
+            <strong class="me-auto">Tarefas do dia {{data_atual}} </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fechar"></button>
+        </div>
+        <div class="toast-body">
+            <ol>
+                {%for post in posts_today%}
+                <li> {{post.assunto}} </li>
+            {%endfor%}
+            </ol>
+        </div>
+    </div>
+   </div>
+
+   <!-- Toast Posts Pendentes -->
+   <div class="toast-container position-fixed  end-0 p-3">
+    <div id="toastExpirado" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="https://cdn-icons-png.freepik.com/256/2556/2556949.png" class="rounded me-2" alt="ícone" width="30">
+            <strong class="me-auto">Você possui {{posts_expirados|count}} tarefas pendentes </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fechar"></button>
+        </div>
+        <div class="toast-body">
+            <ol>
+                {%for post in posts_expirados%}
+                <li> {{post.assunto}} </li>
+            {%endfor%}
+            </ol>
+        </div>
+    </div>
+   </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
@@ -830,14 +883,17 @@
         $(`.dados_expirados`).find(`.dados_expirados${post_id}`).find(`.diferenca_dias${post_id}`).html(`<p>A tarefa está ${differenceInDays} dias atrasada</p>`);
     }
 
-    function descobrir_data(post_id) {
-        var data_limite = $(`.input${post_id}`).val();
-        var dataFormatada = moment(data_limite, "DD/MM/YYYY");
-        var data_atual = moment();
 
-        var total = data_atual.diff(dataFormatada, 'days');
-        alert(total)
-    }
+    document.addEventListener('DOMContentLoaded', function () {
+        // Cria uma instância de Toast do Bootstrap
+        const toast_diario = new bootstrap.Toast(document.getElementById('meuToast'));
+        const toast_expirado = new bootstrap.Toast(document.getElementById('toastExpirado'));
+
+        // Exibe o Toast
+        toast_diario.show();
+        toast_expirado.show();
+    });
+
 
 </script>
 
