@@ -32,7 +32,7 @@ def home():
 
     posts_today = db.session.query(Post).filter(Post.data_limite==data_formatada).filter(Post.post_status_id != 3).all()
 
-    posts = db.session.query(Post).order_by(desc(Post.id)).filter(Post.post_status_id == 1).all()
+    posts = db.session.query(Post).order_by(desc(Post.id)).filter(Post.post_status_id == 1).filter(Post.data_limite != data_formatada).all()
 
     posts_concluidos = db.session.query(Post).order_by(desc(Post.id)).filter(Post.post_status_id == 3).all()
 
