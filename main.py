@@ -4,7 +4,7 @@ from sqlalchemy import desc, asc, func
 from sqlalchemy.orm import joinedload
 from tables import *
 from datetime import datetime, date, timedelta
-from automatico import*
+import automatico
 
 
 class SQLAlchemy(_BaseSQLAlchemy):
