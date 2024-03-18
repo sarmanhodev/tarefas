@@ -9,8 +9,8 @@ def atualizar_dado():
     print(response.text)
 
 # Agende a execução a cada 4 horas (ajuste conforme necessário)
-schedule.every(10).seconds.do(atualizar_dado)
-
+schedule.every(240).seconds.do(atualizar_dado)
+print("\nTarefa funcionou\n")
 # Função para iniciar o agendamento em uma thread separada
 def iniciar_agendamento():
     while True:
