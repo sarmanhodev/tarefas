@@ -9,8 +9,8 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-EXPOSE 8000
+EXPOSE 5000
 
-HEALTHCHECK --interval=30s --timeout=3s CMD curl -f http://0.0.0.0:8000/ || exit 1
+HEALTHCHECK --interval=30s --timeout=3s CMD curl -f http://0.0.0.0:5000/ || exit 1
 
 CMD ["python", "main.py"]
